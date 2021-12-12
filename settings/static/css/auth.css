@@ -1,0 +1,141 @@
+/* ------ common ------- */
+body {
+  background-color: #f8f9fa;
+}
+
+.logo {
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+input {
+    border-radius: 0!important;
+}
+
+h6{
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 600;
+}
+
+.navbar-container {
+  background: white;
+  box-shadow: 0 2px 5px 1px #cecece;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 100% !important;
+}
+.navbar-container .col-10 {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+.navbar-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.question-icon {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 2px;
+}
+
+.back-icon {
+  margin-bottom: 2px;
+}
+
+.color-silver {
+  color: silver;
+}
+
+.need-help{
+  color: #A5A5A5;
+  font-size: 16px;
+}
+
+.form-footer {
+  border-top: 2px solid #e8e8e8;
+  padding: 20px 20px 20px 20px !important;
+}
+
+.need-help-container{
+  margin-top: 5px;
+}
+
+.btn-primary{
+  background-color: #ee44aa;
+  border: 0px solid black;
+}
+.btn-primary:hover{
+  box-shadow: none;
+  background-color: #ee44aa;
+}
+.btn-primary:active{
+  box-shadow: 0 0 0 0.2rem #ee44aa;
+  background-color: #ee44aa !important;
+}
+.btn-primary:focus{
+  border: none;
+  box-shadow: 0 0 0 0.2rem #ee44aa;
+  background-color: #ee44aa !important;
+}
+.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem #ee44aa!important;
+}
+.btn-primary:not(:disabled):not(.disabled):active {
+  background-color: #ee44aa;
+  border-color: #ee44aa;
+}
+a {
+  color: #ee44aa!important;
+}
+a:hover {
+  color: #ee44aa!important;
+  text-decoration: none!important;
+}
+.disable-select {
+  user-select: none;
+}
+/* --------/ common ---------- */
+
+
+/* ------ login.html ------ */
+
+
+.login label {
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 0;
+  line-height: 22px;
+}
+.login form {
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+.login input{
+  max-width: 400px;
+}
+.login .message {
+  padding: 30px 24px 5px 24px;
+}
+.login .form-row {
+  margin-left: 15px;
+  margin-right: 20px;
+}
+
+.login .form-panel {
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+}
+
+#login-form{
+  margin-top: 30px;
+}
+.login .forgotPasswordLink{
+  display: block;
+  font-size: 14px;
+  margin-top: 10px;
+}
+/* ------/ login.html ------ */

@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "strukturen"
+version = "0.1.0"
+description = ""
+authors = ["Lilith Wittmann"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.9"
+django-reversion = "^4.0.1"
+django-polymorphic = "^3.1.0"
+django-admin-json-editor = "^0.2.3"
+graphene-django = "^2.15.0"
+django-filter = "^21.1"
+serious-django-services = "^0.5"
+serious-django-permissions = "^0.17"
+serious-django-graphene = "^0.5.1"
+django-graphene-permissions = "^0.0.4"
+jsonschema = "^4.2.1"
+django-oauth-toolkit = "^1.5.0"
+django-rest-framework-social-oauth2 = "^1.1.0"
+django-oauth-toolkit-jwt = {git = "https://github.com/LilithWittmann/django-oauth-toolkit-jwt/"}
+Pillow = "^8.4.0"
+django-cors-headers = "^3.10.0"
+django-crispy-forms = "^1.13.0"
+graphene-file-upload = "^1.3.0"
+
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

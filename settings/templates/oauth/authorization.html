@@ -1,0 +1,47 @@
+{% extends "oauth/auth_base.html" %}
+{% load static %}
+
+
+{% load i18n %}
+{% block content %}
+        <div class="row justify-content-center">
+          <div class="col-6">
+              <div class="col-10">
+        {% if not error %}
+            <form id="authorizationForm" method="post">
+                <h1>{{ application.application.name }} Login</h1>
+                <hr>
+                {% csrf_token %}
+
+                {% for field in form %}
+                    {% if field.is_hidden %}
+                        {{ field }}
+                    {% endif %}
+                {% endfor %}
+                {{ application.application.name }} wants access to the following data:
+                <ul>
+                    {% for scope in scopes_descriptions %}
+                        <li>{{ scope }}</li>
+                    {% endfor %}
+                </ul>
+
+                {{ form.errors }}
+                {{ form.non_field_errors }}
+
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" class="btn btn-large btn-secondary" value="Cancel"/>
+                        <input type="submit" class="btn btn-large btn-primary" name="allow" value="Authorize"/>
+                    </div>
+                </div>
+            </form>
+
+        {% else %}
+            <h2>Error: {{ error.error }}</h2>
+            <p>There was an issue with your request: {{ error.description }}</p>
+
+        {% endif %}
+    </div>
+    </div>
+    </div>
+{% endblock %}

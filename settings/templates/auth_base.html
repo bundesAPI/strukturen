@@ -1,0 +1,42 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+	<title>{{ application.application.name }}</title>
+</head>
+<body>
+
+<div class="login">
+	<div class="navbar-container">
+		<div class="container min-width">
+			<div class="row justify-content-center">
+				<div class="col-10">
+					<div class="logo" href="#">
+						{{ application.application.name }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% load i18n %}
+{% block content %}
+	<div class="container min-width">
+		<div class="row justify-content-center">
+			<div class="col-10">
+            {% block form_content %} {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</div>
+
+</body>
+</html>
