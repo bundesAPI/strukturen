@@ -14,9 +14,9 @@ jobs:
 
     - name: install poetry
       run: pip install poetry
-
+    # TODO: find a way todo this with hashes
     - name: generate requirements.txt
-      run: poetry export -f requirements.txt --output requirements.txt
+      run: poetry export --without-hashes -f requirements.txt --output requirements.txt
 
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
