@@ -12,6 +12,12 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v2
 
+    - name: install poetry
+      run: pip install poetry
+
+    - name: generate requirements.txt
+      run: poetry export -f requirements.txt --output requirements.txt
+
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
 

@@ -327,3 +327,8 @@ fabric.properties
 # Cython debug symbols
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,intellij
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
