@@ -88,7 +88,6 @@ class UserQuery(object):
 class Query(ObjectType):
 
     me = graphene.Field(UserType)
-    all_users = DjangoFilterConnectionField(UserType)
     get_available_languages = graphene.List(LanguageType)
 
     @permissions_checker([IsAuthenticated])

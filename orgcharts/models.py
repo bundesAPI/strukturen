@@ -3,10 +3,12 @@ from django.utils.translation import gettext_lazy as _
 
 from organisation.models import OrganisationEntity
 
+
 class OrgChartStatusChoices(models.TextChoices):
     NEW = 'NEW', _('new')
     PARSED = 'PARSED', _('parsed')
     IMPORTED = 'IMPORTED', _('imported')
+
 
 class OrgChartURL(models.Model):
     organisation_entity = models.ForeignKey(OrganisationEntity, on_delete=models.CASCADE, related_name="orgcharts")
@@ -27,5 +29,6 @@ class OrgChart(models.Model):
 
     def __str__(self):
         return f"{self.org_chart_url} - {self.created_at}"
+
     class Meta:
         unique_together = [['org_chart_url', 'document_hash']]

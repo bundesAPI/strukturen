@@ -28,3 +28,32 @@ class CanUpdateOrganisationEntityPermission(Permission):
     @staticmethod
     def has_object_permission(context, obj):
         return True
+
+
+
+class CanCreateOrganisationAddressPermission(Permission):
+    model = Person
+    description = "can create organisation address"
+
+    @staticmethod
+    def has_permission(context):
+        return context.user.has_perm(CanCreateOrganisationAddressPermission)
+
+    @staticmethod
+    def has_object_permission(context, obj):
+        return True
+
+
+
+
+class CanUpdateOrganisationAddressPermission(Permission):
+    model = Person
+    description = "can create organisation address"
+
+    @staticmethod
+    def has_permission(context):
+        return context.user.has_perm(CanUpdateOrganisationAddressPermission)
+
+    @staticmethod
+    def has_object_permission(context, obj):
+        return True

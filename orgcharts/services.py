@@ -95,33 +95,63 @@ class OrgChartImportService(Service):
     SOURCE_URI = "ORGCHARTIMPORT_FROM_PDF:"
 
     @classmethod
-    def import_organisation_entity(cls, user, orgchart_entity, parent, orgchart_id):
+    def import_entity(cls, user, orgchart_entity, organisation_id, orgchart_id, entity_dict):
+        entity = orgchart_entity["organisation"]
+        import_src_id = cls.SOURCE_URI + str(orgchart_id) + ":" + entity["id"]
+        parent = None
+        if entity["parentId"]["val"] is None:
+            parent = organisation_id
+        elif entity["parentId"]["val"] not in entity_dict:
+            raise OrgChartImportServiceException('Did not find any parent with ID {entity["parentId"]["val"]}')
+        elif "imported" not in entity_dict[entity["parentId"]["val"]] or entity_dict[entity["parentId"]["val"]]["imported"] is False:
+            entity_dict = cls.import_entity(user, entity_dict[entity["parentId"]["val"]], organisation_id, orgchart_id,
+                                            entity_dict)
+            parent = entity_dict[entity["parentId"]["val"]]["internal_id"]
+            print("import child")
+        else:
+            parent = entity_dict[entity["parentId"]["val"]]["internal_id"]
 
-        if "parsed" not in orgchart_entity or "id" not in orgchart_entity:
-            raise OrgChartImportServiceException(f"You tried to import an entity without any parsed data")
-        import_src_id = cls.SOURCE_URI + str(orgchart_id) + ":" + orgchart_entity["id"]
+        if "shortName" not in entity:
+            entity["shortName"] = ""
+        if "name" not in entity:
+            entity["name"] = ""
+        curr_entity = OrganisationEntityService.create_organisation_entity(user,
+                                                                           short_name=entity[
+                                                                               "shortName"],
+                                                                           name=entity["name"],
+                                                                           parent_id=parent)
 
-        for entity in orgchart_entity["parsed"]["organisations"]:
-            print(entity)
-            if "short_name" not in entity:
-                entity["short_name"] = ""
-            curr_organisation = OrganisationEntityService.create_organisation_entity(user,
-                                                                                     short_name=entity[
-                                                                                         "short_name"],
-                                                                                     name=entity["name"],
-                                                                                     parent_id=parent.id)
-            for person in entity["people"]:
-                curr_person = PersonService.create_person(user,
-                                                          person["name"],
-                                                          person["position"])
-                claim = RelationshipClaimService.create_relationship_claim(user, curr_person.pk,
-                                                                           ClaimTypeService.resolve_claim_type_by_codename(
-                                                                               settings.CLAIMS["LEADS"]).pk,
-                                                                           curr_organisation.pk
-                                                                           )
-            if "children" in orgchart_entity and orgchart_entity["children"]:
-                for item in orgchart_entity["children"]:
-                    cls.import_organisation_entity(user, item, curr_organisation, orgchart_id)
+        for person in entity["people"]:
+            curr_person = PersonService.create_person(user,
+                                                      person["name"],
+                                                      person["position"])
+            claim = RelationshipClaimService.create_relationship_claim(user, curr_person.pk,
+                                                                       ClaimTypeService.resolve_claim_type_by_codename(
+                                                                           settings.CLAIMS["LEADS"]).pk,
+                                                                       curr_entity.pk
+                                                                       )
+        entity_dict[entity["id"]]["imported"] = True
+        entity_dict[entity["id"]]["internal_id"] = curr_entity.pk
+        print(entity_dict)
+        return entity_dict
+
+    @classmethod
+    def import_organisation_entities(cls, user, entities, organisation_id, orgchart_id):
+        entity_dict = {}
+        for entity in entities:
+            entity_dict[entity["organisation"]["id"]] = entity
+
+        print(entity_dict)
+
+        for entity in entities:
+            if "imported" not in entity_dict[entity["organisation"]["id"]] \
+                or entity_dict[entity["organisation"]["id"]]["imported"] is not True:
+                cls.import_entity(user, entity_dict[entity["organisation"]["id"]], organisation_id, orgchart_id, entity_dict)
+
+        return entity_dict
+
+
+
 
     @classmethod
     def import_parsed_orgchart(cls, user: AbstractUser, orgchart_id: int, orgchart):
@@ -130,6 +160,7 @@ class OrgChartImportService(Service):
         :param orgchart: the orgchart object as Dict
 
         """
+        print(orgchart)
         if not user.has_perm(CanImportOrgChartPermission):
             raise PermissionError("You are not allowed to do initial orgchart imports.")
 
@@ -157,8 +188,7 @@ class OrgChartImportService(Service):
 
         organisation = orgchart_document.org_chart_url.organisation_entity
 
-        for entity in orgchart:
-            cls.import_organisation_entity(user, entity, organisation, orgchart_id)
+        cls.import_organisation_entities(user, orgchart, organisation, orgchart_id)
 
         orgchart_document.status = OrgChartStatusChoices.IMPORTED
         orgchart_document.save()

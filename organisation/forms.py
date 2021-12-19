@@ -1,6 +1,6 @@
 from django import forms
 
-from organisation.models import OrganisationEntity
+from organisation.models import OrganisationEntity, OrganisationAddress
 
 
 class UpdateOrganisationEntityForm(forms.ModelForm):
@@ -10,6 +10,7 @@ class UpdateOrganisationEntityForm(forms.ModelForm):
             "name",
             "short_name",
             "parent",
+            "locations"
         ]
 
 
@@ -20,4 +21,29 @@ class CreateOrganisationEntityForm(forms.ModelForm):
             "name",
             "short_name",
             "parent",
+            "locations"
+        ]
+
+
+class UpdateOrganisationAddressForm(forms.ModelForm):
+    class Meta:
+        model = OrganisationAddress
+        fields = [
+            "name",
+            "street",
+            "city",
+            "postal_code",
+            "country",
+        ]
+
+
+class CreateOrganisationAddressForm(forms.ModelForm):
+    class Meta:
+        model = OrganisationAddress
+        fields = [
+            "name",
+            "street",
+            "city",
+            "postal_code",
+            "country",
         ]
