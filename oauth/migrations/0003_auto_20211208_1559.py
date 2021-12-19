@@ -6,18 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('oauth', '0002_auto_20210206_1222'),
+        ("oauth", "0002_auto_20210206_1222"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userprofile',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="userprofile",
+            name="id",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
-            model_name='userprofile',
-            name='language',
-            field=models.CharField(choices=[('en-US', 'English'), ('de-DE', 'German')], default='de-DE', max_length=20),
+            model_name="userprofile",
+            name="language",
+            field=models.CharField(
+                choices=[("en-US", "English"), ("de-DE", "German")],
+                default="de-DE",
+                max_length=20,
+            ),
         ),
     ]

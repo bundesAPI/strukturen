@@ -12,7 +12,7 @@ from orgcharts.models import OrgChartURL, OrgChart
 
 
 class Command(BaseCommand):
-    help = 'Update the orgcharts'
+    help = "Update the orgcharts"
 
     def handle(self, *args, **options):
         for url in OrgChartURL.objects.order_by("-created_at").all():
@@ -20,7 +20,10 @@ class Command(BaseCommand):
             blob = requests.get(url.url, stream=True)
             m.update(blob.content)
             try:
-                OrgChart.objects.create(org_chart_url=url, document=files.File(ContentFile(blob.content), "orgchart.pdf"),
-                                        document_hash=m.hexdigest())
+                OrgChart.objects.create(
+                    org_chart_url=url,
+                    document=files.File(ContentFile(blob.content), "orgchart.pdf"),
+                    document_hash=m.hexdigest(),
+                )
             except IntegrityError:
                 print("already stored")

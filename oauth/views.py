@@ -59,7 +59,6 @@ class TokenView(views.TokenView):
         token = encode_jwt(payload)
         return token
 
-
     @staticmethod
     def assign_client_credentials_to_user(token):
         if token.user is None:

@@ -16,7 +16,6 @@ class CanCreateOrganisationEntityPermission(Permission):
         return True
 
 
-
 class CanUpdateOrganisationEntityPermission(Permission):
     model = Person
     description = "can update organisation entity"
@@ -30,7 +29,6 @@ class CanUpdateOrganisationEntityPermission(Permission):
         return True
 
 
-
 class CanCreateOrganisationAddressPermission(Permission):
     model = Person
     description = "can create organisation address"
@@ -42,8 +40,6 @@ class CanCreateOrganisationAddressPermission(Permission):
     @staticmethod
     def has_object_permission(context, obj):
         return True
-
-
 
 
 class CanUpdateOrganisationAddressPermission(Permission):

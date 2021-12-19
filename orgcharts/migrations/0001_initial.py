@@ -9,27 +9,56 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('organisation', '0003_organisationentity_short_name'),
+        ("organisation", "0003_organisationentity_short_name"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='OrgChartURL',
+            name="OrgChartURL",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_created=True)),
-                ('url', models.URLField()),
-                ('organisation_entity', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orgcharts', to='organisation.organisationentity')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_created=True)),
+                ("url", models.URLField()),
+                (
+                    "organisation_entity",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="orgcharts",
+                        to="organisation.organisationentity",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='OrgChart',
+            name="OrgChart",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_created=True)),
-                ('document_hash', models.CharField(max_length=255)),
-                ('document', models.FileField(upload_to='')),
-                ('org_chart_url', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='orgcharts.orgcharturl')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_created=True)),
+                ("document_hash", models.CharField(max_length=255)),
+                ("document", models.FileField(upload_to="")),
+                (
+                    "org_chart_url",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="orgcharts.orgcharturl",
+                    ),
+                ),
             ],
         ),
     ]

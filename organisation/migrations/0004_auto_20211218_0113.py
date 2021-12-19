@@ -7,29 +7,47 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('organisation', '0003_organisationentity_short_name'),
+        ("organisation", "0003_organisationentity_short_name"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='OrganisationAddress',
+            name="OrganisationAddress",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('street', models.CharField(max_length=255)),
-                ('city', models.CharField(max_length=255)),
-                ('postal_code', models.CharField(max_length=5)),
-                ('country', models.CharField(max_length=2)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("street", models.CharField(max_length=255)),
+                ("city", models.CharField(max_length=255)),
+                ("postal_code", models.CharField(max_length=5)),
+                ("country", models.CharField(max_length=2)),
             ],
         ),
         migrations.AlterField(
-            model_name='organisationentity',
-            name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='children', to='organisation.organisationentity'),
+            model_name="organisationentity",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="children",
+                to="organisation.organisationentity",
+            ),
         ),
         migrations.AddField(
-            model_name='organisationentity',
-            name='locations',
-            field=models.ManyToManyField(blank=True, related_name='organisations', to='organisation.OrganisationAddress'),
+            model_name="organisationentity",
+            name="locations",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="organisations",
+                to="organisation.OrganisationAddress",
+            ),
         ),
     ]

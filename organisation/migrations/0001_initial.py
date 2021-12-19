@@ -9,21 +9,38 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('claims', '0001_initial'),
+        ("claims", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='OrganisationEntity',
+            name="OrganisationEntity",
             fields=[
-                ('entity_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='claims.entity')),
-                ('name', models.CharField(max_length=255)),
-                ('parent', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='organisation.organisationentity')),
+                (
+                    "entity_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="claims.entity",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "parent",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="organisation.organisationentity",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
-                'base_manager_name': 'objects',
+                "abstract": False,
+                "base_manager_name": "objects",
             },
-            bases=('claims.entity',),
+            bases=("claims.entity",),
         ),
     ]

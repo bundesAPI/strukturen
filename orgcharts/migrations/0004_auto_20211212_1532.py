@@ -7,23 +7,31 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('orgcharts', '0003_alter_orgchart_unique_together'),
+        ("orgcharts", "0003_alter_orgchart_unique_together"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='orgchart',
-            name='raw_source',
+            model_name="orgchart",
+            name="raw_source",
             field=models.JSONField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='orgchart',
-            name='status',
-            field=models.CharField(choices=[('NEW', 'new'), ('IMPORTED', 'imported')], default='NEW', max_length=20),
+            model_name="orgchart",
+            name="status",
+            field=models.CharField(
+                choices=[("NEW", "new"), ("IMPORTED", "imported")],
+                default="NEW",
+                max_length=20,
+            ),
         ),
         migrations.AlterField(
-            model_name='orgchart',
-            name='org_chart_url',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orgchart_documents', to='orgcharts.orgcharturl'),
+            model_name="orgchart",
+            name="org_chart_url",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="orgchart_documents",
+                to="orgcharts.orgcharturl",
+            ),
         ),
     ]

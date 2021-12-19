@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('orgcharts', '0004_auto_20211212_1532'),
+        ("orgcharts", "0004_auto_20211212_1532"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='orgchart',
-            name='status',
-            field=models.CharField(choices=[('NEW', 'new'), ('PARSED', 'parsed'), ('IMPORTED', 'imported')], default='NEW', max_length=20),
+            model_name="orgchart",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("NEW", "new"),
+                    ("PARSED", "parsed"),
+                    ("IMPORTED", "imported"),
+                ],
+                default="NEW",
+                max_length=20,
+            ),
         ),
     ]

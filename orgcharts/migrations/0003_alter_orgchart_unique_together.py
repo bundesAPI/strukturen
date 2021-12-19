@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('orgcharts', '0002_alter_orgchart_created_at'),
+        ("orgcharts", "0002_alter_orgchart_created_at"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='orgchart',
-            unique_together={('org_chart_url', 'document_hash')},
+            name="orgchart",
+            unique_together={("org_chart_url", "document_hash")},
         ),
     ]

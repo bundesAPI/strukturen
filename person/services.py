@@ -10,13 +10,13 @@ from person.permissions import CanUpdatePersonPermission, CanCreatePersonPermiss
 class PersonServiceException(Exception):
     pass
 
+
 class PersonService(Service, CRUDMixin):
     update_form = UpdatePersonForm
     create_form = CreatePersonForm
 
     service_exceptions = ()
     model = Person
-
 
     @classmethod
     def retrieve_person(cls, id: int) -> Person:
@@ -28,19 +28,19 @@ class PersonService(Service, CRUDMixin):
         try:
             person = cls.model.objects.get(pk=id)
         except cls.model.DoesNotExist:
-            raise PersonServiceException(
-                "Person not found."
-            )
+            raise PersonServiceException("Person not found.")
 
         return person
 
     @classmethod
-    def create_person(cls, user: AbstractUser, name: str, position: str = NotPassed) -> Person:
-        """ create a new person
-            :param user: the user calling the service
-            :last_name: - Last name
-            :first_name: - First name (Optional)
-            :returns: the newly created person instance
+    def create_person(
+        cls, user: AbstractUser, name: str, position: str = NotPassed
+    ) -> Person:
+        """create a new person
+        :param user: the user calling the service
+        :last_name: - Last name
+        :first_name: - First name (Optional)
+        :returns: the newly created person instance
         """
 
         if not user.has_perm(CanCreatePersonPermission):
@@ -53,13 +53,19 @@ class PersonService(Service, CRUDMixin):
         return person
 
     @classmethod
-    def update_person(cls, user: AbstractUser, person_id: int, name: str = NotPassed, position: str = NotPassed) -> Person:
-        """ create a new person
-            :param user: the user calling the service
-            :param person_id: - ID of the exsisting entity that should be updated
-            :param name: -  name
-            :param position: - position
-            :return: the updated person instance
+    def update_person(
+        cls,
+        user: AbstractUser,
+        person_id: int,
+        name: str = NotPassed,
+        position: str = NotPassed,
+    ) -> Person:
+        """create a new person
+        :param user: the user calling the service
+        :param person_id: - ID of the exsisting entity that should be updated
+        :param name: -  name
+        :param position: - position
+        :return: the updated person instance
         """
 
         person = cls.retrieve_person(person_id)
@@ -70,10 +76,7 @@ class PersonService(Service, CRUDMixin):
         with reversion.create_revision():
             person = cls._update(
                 person_id,
-                {
-                    "name": name,
-                    "position": position
-                },
+                {"name": name, "position": position},
             )
             reversion.set_user(user)
             reversion.set_comment(f"update via service by {user}")

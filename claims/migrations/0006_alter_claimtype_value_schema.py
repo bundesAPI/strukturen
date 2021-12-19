@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('claims', '0005_alter_valueclaim_value'),
+        ("claims", "0005_alter_valueclaim_value"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='claimtype',
-            name='value_schema',
+            model_name="claimtype",
+            name="value_schema",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

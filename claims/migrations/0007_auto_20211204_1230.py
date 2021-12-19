@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('claims', '0006_alter_claimtype_value_schema'),
+        ("claims", "0006_alter_claimtype_value_schema"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='valueclaim',
-            name='value',
+            model_name="valueclaim",
+            name="value",
         ),
         migrations.AddField(
-            model_name='claim',
-            name='value',
+            model_name="claim",
+            name="value",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

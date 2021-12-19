@@ -5,19 +5,26 @@ from graphene import relay
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql_relay import from_global_id
-from serious_django_graphene import FailableMutation, get_user_from_info, MutationExecutionException
+from serious_django_graphene import (
+    FailableMutation,
+    get_user_from_info,
+    MutationExecutionException,
+)
 from serious_django_services import NotPassed
 
 from claims.schema import OrganisationEntityNode
 from organisation.models import OrganisationAddress
-from organisation.permissions import CanCreateOrganisationEntityPermission, CanUpdateOrganisationEntityPermission
+from organisation.permissions import (
+    CanCreateOrganisationEntityPermission,
+    CanUpdateOrganisationEntityPermission,
+)
 from organisation.services import OrganisationEntityService, OrganisationAddressService
 
 
 class OrganisationAddressNode(DjangoObjectType):
     class Meta:
         model = OrganisationAddress
-        filter_fields = ['id']
+        filter_fields = ["id"]
         interfaces = (relay.Node,)
 
 
@@ -31,16 +38,20 @@ class CreateOrganisationEntity(FailableMutation):
         locations = graphene.List(graphene.ID)
 
     @permissions_checker([IsAuthenticated, CanCreateOrganisationEntityPermission])
-    def mutate(self, info, name, short_name=NotPassed, locations=[], parent_id=NotPassed):
+    def mutate(
+        self, info, name, short_name=NotPassed, locations=[], parent_id=NotPassed
+    ):
         user = get_user_from_info(info)
         if parent_id != NotPassed:
             parent_id = int(from_global_id(parent_id)[1])
         try:
-            result = OrganisationEntityService.create_organisation_entity(user,
-                                                                          name=name,
-                                                                          short_name=short_name,
-                                                                          locations=locations,
-                                                                          parent_id=parent_id)
+            result = OrganisationEntityService.create_organisation_entity(
+                user,
+                name=name,
+                short_name=short_name,
+                locations=locations,
+                parent_id=parent_id,
+            )
         except OrganisationEntityService.exceptions as e:
             raise MutationExecutionException(str(e))
         return CreateOrganisationEntity(success=True, organisation_entity=result)
@@ -58,13 +69,13 @@ class UpdateOrganisationEntity(FailableMutation):
 
     @permissions_checker([IsAuthenticated, CanUpdateOrganisationEntityPermission])
     def mutate(
-            self,
-            info,
-            organisation_entity_id,
-            name=NotPassed,
-            locations=NotPassed,
-            short_name=NotPassed,
-            parent_id=NotPassed,
+        self,
+        info,
+        organisation_entity_id,
+        name=NotPassed,
+        locations=NotPassed,
+        short_name=NotPassed,
+        parent_id=NotPassed,
     ):
         user = get_user_from_info(info)
         if parent_id != NotPassed:
@@ -98,13 +109,14 @@ class CreateOrganisationAddress(FailableMutation):
         user = get_user_from_info(info)
 
         try:
-            result = OrganisationAddressService.create_address(user,
-                                                               name=name,
-                                                               street=street,
-                                                               city=city,
-                                                               postal_code=postal_code,
-                                                               country=country
-                                                               )
+            result = OrganisationAddressService.create_address(
+                user,
+                name=name,
+                street=street,
+                city=city,
+                postal_code=postal_code,
+                country=country,
+            )
         except OrganisationAddressService.exceptions as e:
             raise MutationExecutionException(str(e))
         return CreateOrganisationAddress(success=True, organisation_address=result)
@@ -123,14 +135,14 @@ class UpdateOrganisationAddress(FailableMutation):
 
     @permissions_checker([IsAuthenticated, CanUpdateOrganisationEntityPermission])
     def mutate(
-            self,
-            info,
-            organisation_address_id,
-            name=NotPassed,
-            street=NotPassed,
-            city=NotPassed,
-            postal_code=NotPassed,
-            country=NotPassed,
+        self,
+        info,
+        organisation_address_id,
+        name=NotPassed,
+        street=NotPassed,
+        city=NotPassed,
+        postal_code=NotPassed,
+        country=NotPassed,
     ):
         user = get_user_from_info(info)
         try:

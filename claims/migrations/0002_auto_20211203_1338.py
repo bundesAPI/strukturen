@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('claims', '0001_initial'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("claims", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='claimtype',
-            name='content_type',
+            model_name="claimtype",
+            name="content_type",
         ),
         migrations.AddField(
-            model_name='claimtype',
-            name='content_type',
-            field=models.ManyToManyField(to='contenttypes.ContentType'),
+            model_name="claimtype",
+            name="content_type",
+            field=models.ManyToManyField(to="contenttypes.ContentType"),
         ),
     ]
