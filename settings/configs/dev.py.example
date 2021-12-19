@@ -1,0 +1,19 @@
+from settings.base import *
+from os import environ
+import os
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+JWT_PRIVATE_KEY_STRUKTUREN = """
+"""
+
+
+JWT_PUBLIC_KEY_STRUKTUREN = """
+"""
+
+ML_BACKEND_BASE_URL = "http://127.0.0.1:8090"
