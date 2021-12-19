@@ -20,7 +20,7 @@ from orgcharts.permissions import (
     CanImportOrgChartPermission,
 )
 from person.services import PersonService
-from settings import settings
+from django.conf import settings
 
 
 class OrgChartURLServiceException(Exception):

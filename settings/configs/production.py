@@ -1,4 +1,4 @@
-from settings.base import *
+from .base import *
 from os import environ
 import os
 
