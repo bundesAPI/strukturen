@@ -23,5 +23,6 @@ jobs:
         application_name: strukturen-dev
         environment_name: strukturen
         version_description: ${{github.SHA}}
+        version_label: ${{github.SHA}}
         region: eu-central-1
         deployment_package: deploy.zip
