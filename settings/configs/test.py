@@ -9,7 +9,11 @@ DATABASES = {
     }
 }
 
-# TODO: mock me during runtime
+# TODO: mock us during runtime
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = "django-insecure-@_)sfbt%39%85=#i0-)7p04gvuu-o@a%6i@3c9tlc^-r(57&@*"
+
 JWT_PRIVATE_KEY_STRUKTUREN = """
 -----BEGIN RSA PRIVATE KEY-----
 MIIJJwIBAAKCAgEApZDxqhI8O93V0LGwAiQqYR1n2PPeby7DbvrE3yd4zWgw5Rxe
