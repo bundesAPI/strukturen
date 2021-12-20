@@ -15,6 +15,7 @@ DATABASES = {
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
 ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 
 CORS_ALLOW_ALL_ORIGINS = False
