@@ -4,7 +4,7 @@ import os
 
 from django_secrets import SECRETS
 
-
+# aws access key for secret manager and s3
 AWS_ACCESS_KEY_ID = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_SECRET_ACCESS_KEY")
 
