@@ -40,7 +40,6 @@ sentry_sdk.init(
     send_default_pii=True,
 )
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
