@@ -8,9 +8,11 @@ from django_secrets import SECRETS
 AWS_ACCESS_KEY_ID = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_SECRET_ACCESS_KEY")
 
-AWS_SECRETS_MANAGER_SECRET_NAME = "arn:aws:secretsmanager:eu-central-1:889551677573:secret:bund-dev-strukturen/config-0cFn1z"
-AWS_SECRETS_MANAGER_SECRET_SECTION = "strukturen-bund-dev:production"
-AWS_SECRETS_MANAGER_REGION_NAME = "eu-central-1"
+AWS_SECRETS_MANAGER_SECRET_NAME = os.environ.get("AWS_SECRETS_MANAGER_SECRET_NAME")
+AWS_SECRETS_MANAGER_SECRET_SECTION = os.environ.get(
+    "AWS_SECRETS_MANAGER_SECRET_SECTION"
+)
+AWS_SECRETS_MANAGER_REGION_NAME = os.environ.get("AWS_REGION_NAME")
 
 
 DATABASES = {
@@ -46,12 +48,12 @@ ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-AWS_EB_DEFAULT_REGION = "eu-central-1"
+AWS_EB_DEFAULT_REGION = os.environ.get("AWS_REGION_NAME")
 
 # https://github.com/jschneier/django-storages/issues/782
 AWS_S3_ADDRESSING_STYLE = "virtual"
 
-SECRET_KEY = SECRETS.get("DJANGO_SECRET_KEY")
+SECRET_KEY = SECRETS.get("SECRET_KEY")
 
 JWT_PRIVATE_KEY_STRUKTUREN = SECRETS.get("JWT_PRIVATE_KEY")
 JWT_PUBLIC_KEY_STRUKTUREN = SECRETS.get("JWT_PUBLIC_KEY")
@@ -61,7 +63,7 @@ USE_TZ = False
 STATIC_ROOT = "/static/"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-AWS_S3_REGION_NAME = "eu-central-1"
+AWS_S3_REGION_NAME = os.environ.get("AWS_REGION_NAME")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_BUCKET_NAME")
 
 try:
