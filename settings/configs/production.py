@@ -39,7 +39,7 @@ AWS_EB_DEFAULT_REGION = "eu-central-1"
 # your aws access key id
 AWS_ACCESS_KEY_ID = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
 # your aws access key
-AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_SECRET_ACCESS_KEY")
 # queue name to use - queues that don't exist will be created automatically
 
 SECRET_KEY = environ.get("DJANGO_SECRET_KEY")
