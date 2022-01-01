@@ -8,7 +8,7 @@ from django_secrets import SECRETS
 AWS_ACCESS_KEY_ID = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_SECRET_ACCESS_KEY")
 
-AWS_SECRETS_MANAGER_SECRET_NAME = "bund-dev-strukturen/config"
+AWS_SECRETS_MANAGER_SECRET_NAME = "arn:aws:secretsmanager:eu-central-1:889551677573:secret:bund-dev-strukturen/config-0cFn1z"
 AWS_SECRETS_MANAGER_SECRET_SECTION = "strukturen-bund-dev:production"
 AWS_SECRETS_MANAGER_REGION_NAME = "eu-central-1"
 
