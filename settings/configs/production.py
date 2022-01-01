@@ -48,7 +48,7 @@ ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS"), ".elasticbeanstalk.com"]
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^https://\w+\.bund\.dev$",
+    r"^https://[a-zA-z0-9-.]{1,}\.bund\.dev$",
 ]
 
 AWS_EB_DEFAULT_REGION = os.environ.get("AWS_REGION_NAME")
