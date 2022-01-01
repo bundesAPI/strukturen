@@ -42,6 +42,9 @@ AWS_ACCESS_KEY_ID = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_SECRET_ACCESS_KEY")
 # queue name to use - queues that don't exist will be created automatically
 
+# https://github.com/jschneier/django-storages/issues/782
+AWS_S3_ADDRESSING_STYLE = "virtual"
+
 SECRET_KEY = environ.get("DJANGO_SECRET_KEY")
 
 JWT_PRIVATE_KEY_STRUKTUREN = environ.get("JWT_PRIVATE_KEY")
