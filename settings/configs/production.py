@@ -43,7 +43,8 @@ sentry_sdk.init(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
+# TODO
+ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS"), ".elasticbeanstalk.com"]
 
 CORS_ALLOW_ALL_ORIGINS = False
 
