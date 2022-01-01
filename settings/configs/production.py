@@ -2,13 +2,24 @@ from .base import *
 from os import environ
 import os
 
+from django_secrets import SECRETS
+
+
+AWS_ACCESS_KEY_ID = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_SECRET_ACCESS_KEY")
+
+AWS_SECRETS_MANAGER_SECRET_NAME = "bund-dev-strukturen/config"
+AWS_SECRETS_MANAGER_SECRET_SECTION = "strukturen-bund-dev:production"
+AWS_SECRETS_MANAGER_REGION_NAME = "eu-central-1"
+
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "HOST": environ.get("RDS_DB_HOST"),
-        "NAME": environ.get("RDS_DB_NAME"),
-        "USER": environ.get("RDS_DB_USER"),
-        "PASSWORD": environ.get("RDS_DB_PASSWORD"),
+        "HOST": SECRETS.get("RDS_DB_HOST"),
+        "NAME": SECRETS.get("RDS_DB_NAME"),
+        "USER": SECRETS.get("RDS_DB_USER"),
+        "PASSWORD": SECRETS.get("RDS_DB_PASSWORD"),
     },
 }
 
@@ -16,7 +27,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
-    dsn=os.environ.get("SENTRY_DSN"),
+    dsn=SECRETS.get("SENTRY_DSN"),
     integrations=[DjangoIntegration()],
     # Set traces_sample_rate to 1.0 to capture 100%
     # of transactions for performance monitoring.
@@ -36,19 +47,14 @@ ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 CORS_ALLOW_ALL_ORIGINS = False
 
 AWS_EB_DEFAULT_REGION = "eu-central-1"
-# your aws access key id
-AWS_ACCESS_KEY_ID = os.environ.get("APPLICATION_AWS_ACCESS_KEY_ID")
-# your aws access key
-AWS_SECRET_ACCESS_KEY = os.environ.get("APPLICATION_AWS_SECRET_ACCESS_KEY")
-# queue name to use - queues that don't exist will be created automatically
 
 # https://github.com/jschneier/django-storages/issues/782
 AWS_S3_ADDRESSING_STYLE = "virtual"
 
-SECRET_KEY = environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = SECRETS.get("DJANGO_SECRET_KEY")
 
-JWT_PRIVATE_KEY_STRUKTUREN = environ.get("JWT_PRIVATE_KEY")
-JWT_PUBLIC_KEY_STRUKTUREN = environ.get("JWT_PUBLIC_KEY")
+JWT_PRIVATE_KEY_STRUKTUREN = SECRETS.get("JWT_PRIVATE_KEY")
+JWT_PUBLIC_KEY_STRUKTUREN = SECRETS.get("JWT_PUBLIC_KEY")
 
 USE_TZ = False
 
