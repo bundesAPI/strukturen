@@ -1,5 +1,5 @@
 # strukturen
-This is the backend of "Strukturen". A service that will eventually offer you a machine readable structure of the German Goverment. 
+This is the backend of "Strukturen". A service that will eventually offer you a machine readable representation of the federal public service of Germany. 
 
 Including things like:
 - Organisations
