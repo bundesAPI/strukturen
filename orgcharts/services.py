@@ -303,7 +303,6 @@ class OrgChartErrorService(Service, CRUDMixin):
             raise PermissionError("You are not allowed to create an OrgChartUrl.")
 
         with reversion.create_revision():
-            print(orgchart_url_id)
             org_chart_error = cls._create(
                 {"org_chart_url": org_chart_url_id, "message": message}
             )
