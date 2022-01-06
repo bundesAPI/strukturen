@@ -20,6 +20,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ORGCHART_CRAWLER_SNS_TOPIC = None
+ORGCHART_ANALYSIS_SNS_TOPIC = None
 
 # Application definition
 

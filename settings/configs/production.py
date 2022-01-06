@@ -69,6 +69,9 @@ STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 AWS_S3_REGION_NAME = os.environ.get("AWS_REGION_NAME")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_BUCKET_NAME")
 
+ORGCHART_CRAWLER_SNS_TOPIC = os.environ.get("ORGCHART_CRAWLER_SNS_TOPIC")
+ORGCHART_CRAWLER_SNS_TOPIC = os.environ.get("ORGCHART_ANALYSIS_SNS_TOPIC")
+
 try:
     from .local import *
 except ImportError:
