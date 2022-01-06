@@ -13,14 +13,24 @@ from organisation.permissions import (
     CanUpdateOrganisationEntityPermission,
 )
 from organisation.services import OrganisationEntityService
-from orgcharts.forms import CreateOrgChartURLForm, UpdateOrgChartURLForm
-from orgcharts.models import OrgChartURL, OrgChart, OrgChartStatusChoices
+from orgcharts.forms import (
+    CreateOrgChartURLForm,
+    UpdateOrgChartURLForm,
+    UpdateOrgChartErrorForm,
+    CreateOrgChartErrorForm,
+    CreateOrgChartForm,
+)
+from orgcharts.models import OrgChartURL, OrgChart, OrgChartStatusChoices, OrgChartError
 from orgcharts.permissions import (
     CanCreateOrgChartURLPermission,
     CanImportOrgChartPermission,
+    CanCreateOrgChartErrorPermission,
+    CanCreateOrgChartPermission,
 )
 from person.services import PersonService
 from django.conf import settings
+
+from typing import BinaryIO
 
 
 class OrgChartURLServiceException(Exception):
@@ -77,9 +87,12 @@ class OrgChartURLService(Service, CRUDMixin):
         return org_chart_url
 
 
-class OrgChartService(Service):
+class OrgChartService(Service, CRUDMixin):
     service_exceptions = (OrgChartServiceException,)
     model = OrgChart
+
+    update_form = CreateOrgChartForm
+    create_form = CreateOrgChartForm
 
     @classmethod
     def retrieve_orgchart(cls, id: int) -> OrgChart:
@@ -94,6 +107,34 @@ class OrgChartService(Service):
             raise OrgChartServiceException("OrgChart not found.")
 
         return orgchart
+
+    @classmethod
+    def create_orgchart(
+        cls,
+        user: AbstractUser,
+        org_chart_url_id: str,
+        document_hash: hash,
+        document: BinaryIO,
+    ) -> OrgChart:
+        """create a new OrganisationEntity
+        :param user: the user calling the service
+        :param org_chart_url_id: -  the url this orgchart document is related to
+        :param document_hash: -  the hash of the document submiited
+        :param document: - the document itself as file object
+        :returns: the newly created OrgChart instance
+        """
+
+        if not user.has_perm(CanCreateOrgChartPermission):
+            raise PermissionError("You are not allowed to create an OrgChart.")
+
+        with reversion.create_revision():
+            org_chart = cls._create(
+                {"org_chart_url": org_chart_url_id, "document_hash": document_hash},
+                {"document": document},
+            )
+            reversion.set_user(user)
+
+        return org_chart
 
 
 class OrgChartImportService(Service):
@@ -238,3 +279,34 @@ class OrgChartImportService(Service):
         orgchart_document.save()
 
         return orgchart_document
+
+
+class OrgChartErrorService(Service, CRUDMixin):
+    service_exceptions = (OrgChartServiceException,)
+    model = OrgChartError
+
+    update_form = UpdateOrgChartErrorForm
+    create_form = CreateOrgChartErrorForm
+
+    @classmethod
+    def create_orgchart_error(
+        cls, user: AbstractUser, org_chart_url_id: int, message: str
+    ) -> OrgChartError:
+        """create a new OrganisationEntity
+        :param user: the user calling the service
+        :param org_chart_url_id: -  the url object the orgchart can be found under
+        :param message: -  the error message
+        :returns: the newly created OrgChartError instance
+        """
+
+        if not user.has_perm(CanCreateOrgChartErrorPermission):
+            raise PermissionError("You are not allowed to create an OrgChartUrl.")
+
+        with reversion.create_revision():
+            print(orgchart_url_id)
+            org_chart_error = cls._create(
+                {"org_chart_url": org_chart_url_id, "message": message}
+            )
+            reversion.set_user(user)
+
+        return org_chart_error

@@ -7,6 +7,7 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql_relay import from_global_id
 from graphql_relay.connection.connectiontypes import Connection
+from graphene_file_upload.scalars import Upload
 from serious_django_graphene import (
     FailableMutation,
     get_user_from_info,
@@ -14,7 +15,7 @@ from serious_django_graphene import (
 )
 from serious_django_services import NotPassed
 
-from orgcharts.models import OrgChartURL, OrgChart
+from orgcharts.models import OrgChartURL, OrgChart, OrgChartError
 from orgcharts.permissions import (
     CanCreateOrgChartURLPermission,
     CanImportOrgChartPermission,
@@ -23,6 +24,7 @@ from orgcharts.services import (
     OrgChartURLService,
     OrgChartService,
     OrgChartImportService,
+    OrgChartErrorService,
 )
 
 
@@ -43,6 +45,13 @@ class OrgChartNode(DjangoObjectType):
         return self.document.url
 
 
+class OrgChartErrorNode(DjangoObjectType):
+    class Meta:
+        model = OrgChartError
+        filter_fields = ["id"]
+        interfaces = (relay.Node,)
+
+
 class CreateOrgChartURL(FailableMutation):
     org_chart_url = graphene.Field(OrgChartURLNode)
 
@@ -60,6 +69,50 @@ class CreateOrgChartURL(FailableMutation):
         except OrgChartURLService.exceptions as e:
             raise MutationExecutionException(str(e))
         return CreateOrgChartURL(success=True, organisation_entity=result)
+
+
+class CreateOrgChartError(FailableMutation):
+    org_chart_error = graphene.Field(OrgChartErrorNode)
+
+    class Arguments:
+        message = graphene.String(required=True)
+        org_chart_url_id = graphene.ID(required=True)
+
+    @permissions_checker([IsAuthenticated, CanCreateOrgChartURLPermission])
+    def mutate(self, info, message, org_chart_url_id):
+        user = get_user_from_info(info)
+        try:
+            result = OrgChartErrorService.create_orgchart_error(
+                user,
+                orgchart_url_id=int(from_global_id(org_chart_url_id)[1]),
+                message=message,
+            )
+        except OrgChartErrorService.exceptions as e:
+            raise MutationExecutionException(str(e))
+        return CreateOrgChartError(success=True, org_chart_error=result)
+
+
+class CreateOrgChart(FailableMutation):
+    org_chart = graphene.Field(OrgChartNode)
+
+    class Arguments:
+        document_hash = graphene.String(required=True)
+        org_chart_url_id = graphene.ID(required=True)
+        document = Upload(required=True)
+
+    @permissions_checker([IsAuthenticated, CanCreateOrgChartURLPermission])
+    def mutate(self, info, document_hash, org_chart_url_id, document):
+        user = get_user_from_info(info)
+        try:
+            result = OrgChartService.create_orgchart(
+                user,
+                org_chart_url_id=int(from_global_id(org_chart_url_id)[1]),
+                document_hash=document_hash,
+                document=document,
+            )
+        except OrgChartService.exceptions as e:
+            raise MutationExecutionException(str(e))
+        return CreateOrgChart(success=True, org_chart=result)
 
 
 class ImportOrgChart(FailableMutation):
@@ -91,6 +144,8 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     create_org_chart_url = CreateOrgChartURL.Field()
     import_org_chart = ImportOrgChart.Field()
+    create_org_chart_error = CreateOrgChartError.Field()
+    create_org_chart = CreateOrgChart.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

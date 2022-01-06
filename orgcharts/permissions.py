@@ -1,6 +1,6 @@
 from serious_django_permissions.permissions import Permission
 
-from orgcharts.models import OrgChartURL, OrgChart
+from orgcharts.models import OrgChartURL, OrgChart, OrgChartError
 from person.models import Person
 
 
@@ -24,6 +24,32 @@ class CanImportOrgChartPermission(Permission):
     @staticmethod
     def has_permission(context):
         return context.user.has_perm(CanImportOrgChartPermission)
+
+    @staticmethod
+    def has_object_permission(context, obj):
+        return True
+
+
+class CanCreateOrgChartPermission(Permission):
+    model = OrgChart
+    description = "can create an orgchart"
+
+    @staticmethod
+    def has_permission(context):
+        return context.user.has_perm(CanCreateOrgChartPermission)
+
+    @staticmethod
+    def has_object_permission(context, obj):
+        return True
+
+
+class CanCreateOrgChartErrorPermission(Permission):
+    model = OrgChartError
+    description = "can create orgchart error message"
+
+    @staticmethod
+    def has_permission(context):
+        return context.user.has_perm(CanCreateOrgChartErrorPermission)
 
     @staticmethod
     def has_object_permission(context, obj):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import reversion
 
 from organisation.models import OrganisationEntity
 
@@ -10,6 +11,12 @@ class OrgChartStatusChoices(models.TextChoices):
     IMPORTED = "IMPORTED", _("imported")
 
 
+class OrgChartErrorStatusChoices(models.TextChoices):
+    NEW = "NEW", _("new")
+    PARSED = "RESOLVED", _("resolved")
+
+
+@reversion.register()
 class OrgChartURL(models.Model):
     organisation_entity = models.ForeignKey(
         OrganisationEntity, on_delete=models.CASCADE, related_name="orgcharts"
@@ -21,6 +28,7 @@ class OrgChartURL(models.Model):
         return f"{self.organisation_entity} - {self.url}"
 
 
+@reversion.register()
 class OrgChart(models.Model):
     org_chart_url = models.ForeignKey(
         OrgChartURL, on_delete=models.CASCADE, related_name="orgchart_documents"
@@ -40,3 +48,20 @@ class OrgChart(models.Model):
 
     class Meta:
         unique_together = [["org_chart_url", "document_hash"]]
+
+
+@reversion.register()
+class OrgChartError(models.Model):
+    org_chart_url = models.ForeignKey(
+        OrgChartURL, on_delete=models.CASCADE, related_name="errors"
+    )
+    message = models.CharField(max_length=1000)
+    status = models.CharField(
+        max_length=20,
+        choices=OrgChartErrorStatusChoices.choices,
+        default=OrgChartErrorStatusChoices.NEW,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message
