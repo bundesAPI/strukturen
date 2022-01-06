@@ -84,7 +84,7 @@ class CreateOrgChartError(FailableMutation):
         try:
             result = OrgChartErrorService.create_orgchart_error(
                 user,
-                orgchart_url_id=int(from_global_id(org_chart_url_id)[1]),
+                org_chart_url_id=int(from_global_id(org_chart_url_id)[1]),
                 message=message,
             )
         except OrgChartErrorService.exceptions as e:
