@@ -19,6 +19,7 @@ from orgcharts.forms import (
     UpdateOrgChartErrorForm,
     CreateOrgChartErrorForm,
     CreateOrgChartForm,
+    UpdateOrgChartForm,
 )
 from orgcharts.models import OrgChartURL, OrgChart, OrgChartStatusChoices, OrgChartError
 from orgcharts.permissions import (
@@ -26,6 +27,7 @@ from orgcharts.permissions import (
     CanImportOrgChartPermission,
     CanCreateOrgChartErrorPermission,
     CanCreateOrgChartPermission,
+    CanUpdateOrgChartPermission,
 )
 from person.services import PersonService
 from django.conf import settings
@@ -91,8 +93,36 @@ class OrgChartService(Service, CRUDMixin):
     service_exceptions = (OrgChartServiceException,)
     model = OrgChart
 
-    update_form = CreateOrgChartForm
+    update_form = UpdateOrgChartForm
     create_form = CreateOrgChartForm
+
+    @classmethod
+    def update_orgchart(
+        cls,
+        user: AbstractUser,
+        org_chart_id: str,
+        raw_source: str,
+        status: str,
+    ) -> OrgChart:
+        """create a new OrganisationEntity
+        :param user: the user calling the service
+        :param org_chart_id: the id of the orgchart document
+        :param raw_source: the raw json object
+        :param status: the hash of the document submitted
+        :returns: the updated OrgChart instance
+        """
+
+        if not user.has_perm(CanUpdateOrgChartPermission):
+            raise PermissionError("You are not allowed to update an OrgChart.")
+
+        with reversion.create_revision():
+            org_chart = cls._update(
+                org_chart_id,
+                {"raw_source": raw_source, "status": status},
+            )
+            reversion.set_user(user)
+
+        return org_chart
 
     @classmethod
     def retrieve_orgchart(cls, id: int) -> OrgChart:

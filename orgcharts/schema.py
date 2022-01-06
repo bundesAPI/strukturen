@@ -15,7 +15,7 @@ from serious_django_graphene import (
 )
 from serious_django_services import NotPassed
 
-from orgcharts.models import OrgChartURL, OrgChart, OrgChartError
+from orgcharts.models import OrgChartURL, OrgChart, OrgChartError, OrgChartStatusChoices
 from orgcharts.permissions import (
     CanCreateOrgChartURLPermission,
     CanImportOrgChartPermission,
@@ -26,6 +26,8 @@ from orgcharts.services import (
     OrgChartImportService,
     OrgChartErrorService,
 )
+
+OrgChartStatus = graphene.Enum.from_enum(OrgChartStatusChoices)
 
 
 class OrgChartURLNode(DjangoObjectType):
@@ -134,6 +136,29 @@ class ImportOrgChart(FailableMutation):
         return ImportOrgChart(success=True, org_chart=result)
 
 
+class UpdateOrgChart(FailableMutation):
+    org_chart = graphene.Field(OrgChartNode)
+
+    class Arguments:
+        org_chart_id = graphene.ID(required=True)
+        raw_source = graphene.JSONString(required=True)
+        status = OrgChartStatus(required=True)
+
+    @permissions_checker([IsAuthenticated, CanImportOrgChartPermission])
+    def mutate(self, info, org_chart_id, raw_source, status):
+        user = get_user_from_info(info)
+        try:
+            result = OrgChartService.update_orgchart(
+                user,
+                org_chart_id=int(from_global_id(org_chart_id)[1]),
+                raw_source=raw_source,
+                status=status,
+            )
+        except OrgChartService.exceptions as e:
+            raise MutationExecutionException(str(e))
+        return UpdateOrgChart(success=True, org_chart=result)
+
+
 class Query(graphene.ObjectType):
     all_org_chart_urls = DjangoFilterConnectionField(OrgChartURLNode)
     org_chart_url = relay.Node.Field(OrgChartURLNode)
@@ -146,6 +171,7 @@ class Mutation(graphene.ObjectType):
     import_org_chart = ImportOrgChart.Field()
     create_org_chart_error = CreateOrgChartError.Field()
     create_org_chart = CreateOrgChart.Field()
+    update_org_chart = UpdateOrgChart.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

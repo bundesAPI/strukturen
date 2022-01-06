@@ -43,6 +43,19 @@ class CanCreateOrgChartPermission(Permission):
         return True
 
 
+class CanUpdateOrgChartPermission(Permission):
+    model = OrgChart
+    description = "can update an orgchart"
+
+    @staticmethod
+    def has_permission(context):
+        return context.user.has_perm(CanUpdateOrgChartPermission)
+
+    @staticmethod
+    def has_object_permission(context, obj):
+        return True
+
+
 class CanCreateOrgChartErrorPermission(Permission):
     model = OrgChartError
     description = "can create orgchart error message"

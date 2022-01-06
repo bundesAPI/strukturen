@@ -46,3 +46,12 @@ class CreateOrgChartForm(forms.ModelForm):
             "document",
             "document_hash",
         ]
+
+
+class UpdateOrgChartForm(forms.ModelForm):
+    class Meta:
+        model = OrgChart
+        fields = [
+            "raw_source",
+            "status",
+        ]
