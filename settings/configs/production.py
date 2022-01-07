@@ -25,7 +25,7 @@ DATABASES = {
     },
 }
 
-ALLOWED_CIDR_NETS = ["172.16.0.0/12"]
+ALLOWED_CIDR_NETS = ["172.16.0.0/12", "127.0.0.1/8"]
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -54,6 +54,8 @@ ALLOWED_HOSTS = [
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://[a-zA-z0-9-.]{1,}\.bund\.dev$",
+    r"^http://127.0.0.1:[0-9]{1,}$",
+    r"^http://localhost:[0-9]{1,}$",
 ]
 
 AWS_EB_DEFAULT_REGION = os.environ.get("AWS_REGION_NAME")
