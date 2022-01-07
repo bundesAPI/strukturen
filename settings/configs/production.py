@@ -25,6 +25,7 @@ DATABASES = {
     },
 }
 
+ALLOWED_CIDR_NETS = ["172.16.0.0/12"]
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
