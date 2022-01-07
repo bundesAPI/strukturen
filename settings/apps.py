@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class SettingsConfig(AppConfig):
-    name = "Strukturen"
+    name = "settings"
     verbose_name = "Strukturen"

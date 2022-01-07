@@ -7,7 +7,8 @@ from reversion.admin import VersionAdmin
 
 @admin.register(OrgChartURL)
 class OrgChartURLAdmin(VersionAdmin):
-    pass
+    autocomplete_fields = ["organisation_entity"]
+    search_fields = ["organisation_entity"]
 
 
 @admin.register(OrgChart)

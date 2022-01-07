@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "oauth2_provider_jwt",
     "crispy_forms",
     # cors
+    "settings",
     "corsheaders",
     "organisation",
     "person",
