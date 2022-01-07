@@ -54,3 +54,39 @@ def start_orgchart_analysis(sender, instance, created, **kwargs):
         response = client.publish(
             TopicArn=settings.ORGCHART_ANALYSIS_SNS_TOPIC, Message=json.dumps(message)
         )
+
+
+@receiver(post_save, sender=OrgChart)
+def start_orgchart_image_caching(sender, instance, created, **kwargs):
+    if (
+        instance.status == OrgChartStatusChoices.PARSED
+        and settings.ORGCHART_ANALYSIS_SNS_TOPIC is not None
+    ):
+        client = boto3.client(
+            "sns",
+            region_name=settings.AWS_EB_DEFAULT_REGION,
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        )
+        message = {
+            "action": "orgchart-image",
+            "parameters": {
+                "orgchart_id": to_global_id(OrgChartNode.__name__, instance.pk),
+                "page": 0,  # TODO: fixme
+            },
+        }
+        response = client.publish(
+            TopicArn=settings.ORGCHART_ANALYSIS_SNS_TOPIC,
+            Message=json.dumps(message),  # TODO: fixme
+        )
+        message = {
+            "action": "cache-all-orgchart-images",
+            "parameters": {
+                "orgchart_id": to_global_id(OrgChartNode.__name__, instance.pk),
+                "page": 0,  # TODO: fixme
+            },
+        }
+        response = client.publish(
+            TopicArn=settings.ORGCHART_ANALYSIS_SNS_TOPIC,
+            Message=json.dumps(message),  # TODO: fixme
+        )
