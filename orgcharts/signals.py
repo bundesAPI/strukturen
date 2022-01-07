@@ -12,8 +12,8 @@ from orgcharts.schema import OrgChartNode, OrgChartURLNode
 
 @receiver(post_save, sender=OrgChartURL)
 def start_orgchart_analysis(sender, instance, created, **kwargs):
-
-    if created and settings.ORGCHART_CRAWLER_SNS_TOPIC is not None:
+    print(settings.ORGCHART_CRAWLER_SNS_TOPIC)
+    if settings.ORGCHART_CRAWLER_SNS_TOPIC is not None:
         client = boto3.client(
             "sns",
             region_name=settings.AWS_EB_DEFAULT_REGION,
