@@ -12,7 +12,6 @@ from orgcharts.schema import OrgChartNode, OrgChartURLNode
 
 @receiver(post_save, sender=OrgChartURL)
 def start_orgchart_crawling(sender, instance, created, **kwargs):
-    print(settings.ORGCHART_CRAWLER_SNS_TOPIC)
     client = boto3.client(
         "sns",
         region_name=settings.AWS_EB_DEFAULT_REGION,
