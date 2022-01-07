@@ -13,24 +13,23 @@ from orgcharts.schema import OrgChartNode, OrgChartURLNode
 @receiver(post_save, sender=OrgChartURL)
 def start_orgchart_analysis(sender, instance, created, **kwargs):
     print(settings.ORGCHART_CRAWLER_SNS_TOPIC)
-    if settings.ORGCHART_CRAWLER_SNS_TOPIC is not None:
-        client = boto3.client(
-            "sns",
-            region_name=settings.AWS_EB_DEFAULT_REGION,
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        )
-        message = {
-            "action": "crawl-orgchart",
-            "parameters": {
-                "org_chart_url_id": to_global_id(OrgChartURLNode.__name__, instance.pk)
-            },
-        }
-        print(message)
-        response = client.publish(
-            TopicArn=settings.ORGCHART_CRAWLER_SNS_TOPIC, Message=json.dumps(message)
-        )
-        print(response)
+    client = boto3.client(
+        "sns",
+        region_name=settings.AWS_EB_DEFAULT_REGION,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    )
+    message = {
+        "action": "crawl-orgchart",
+        "parameters": {
+            "org_chart_url_id": to_global_id(OrgChartURLNode.__name__, instance.pk)
+        },
+    }
+    print(message)
+    response = client.publish(
+        TopicArn=settings.ORGCHART_CRAWLER_SNS_TOPIC, Message=json.dumps(message)
+    )
+    print(response)
 
 
 @receiver(post_save, sender=OrgChart)
