@@ -10,6 +10,7 @@ class OrganisationAddress(models.Model):
     city = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=5)
     country = models.CharField(max_length=2)
+    phone_prefix = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.name
