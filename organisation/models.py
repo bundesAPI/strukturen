@@ -6,7 +6,7 @@ from claims.models import Entity
 @reversion.register()
 class OrganisationAddress(models.Model):
     name = models.CharField(max_length=255)
-    street = models.CharField(max_length=255)
+    street = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=5)
     country = models.CharField(max_length=2)
