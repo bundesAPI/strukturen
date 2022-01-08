@@ -18,22 +18,10 @@ class CreateOrganisationEntityForm(forms.ModelForm):
 class UpdateOrganisationAddressForm(forms.ModelForm):
     class Meta:
         model = OrganisationAddress
-        fields = [
-            "name",
-            "street",
-            "city",
-            "postal_code",
-            "country",
-        ]
+        fields = ["name", "street", "city", "postal_code", "country", "phone_prefix"]
 
 
 class CreateOrganisationAddressForm(forms.ModelForm):
     class Meta:
         model = OrganisationAddress
-        fields = [
-            "name",
-            "street",
-            "city",
-            "postal_code",
-            "country",
-        ]
+        fields = ["name", "street", "city", "postal_code", "country", "phone_prefix"]

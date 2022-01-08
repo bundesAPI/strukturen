@@ -44,6 +44,9 @@ class CreateOrganisationEntity(FailableMutation):
         user = get_user_from_info(info)
         if parent_id != NotPassed:
             parent_id = int(from_global_id(parent_id)[1])
+
+        if locations != NotPassed:
+            locations = [int(from_global_id(l)[1]) for l in locations]
         try:
             result = OrganisationEntityService.create_organisation_entity(
                 user,
@@ -62,7 +65,7 @@ class UpdateOrganisationEntity(FailableMutation):
 
     class Arguments:
         organisation_entity_id = graphene.ID(required=True)
-        name = graphene.String(required=True)
+        name = graphene.String(required=False)
         short_name = graphene.String(required=False)
         locations = graphene.List(graphene.ID)
         parent_id = graphene.ID(required=False)
@@ -80,6 +83,8 @@ class UpdateOrganisationEntity(FailableMutation):
         user = get_user_from_info(info)
         if parent_id != NotPassed:
             parent_id = int(from_global_id(parent_id)[1])
+        if locations != NotPassed:
+            locations = [int(from_global_id(l)[1]) for l in locations]
         try:
             result = OrganisationEntityService.update_organisation_entity(
                 user,
@@ -103,9 +108,10 @@ class CreateOrganisationAddress(FailableMutation):
         city = graphene.String(required=True)
         postal_code = graphene.String(required=True)
         country = graphene.String(required=True)
+        phone_prefix = graphene.String(required=True)
 
     @permissions_checker([IsAuthenticated, CanCreateOrganisationEntityPermission])
-    def mutate(self, info, name, street, city, postal_code, country):
+    def mutate(self, info, name, street, city, postal_code, country, phone_prefix):
         user = get_user_from_info(info)
 
         try:
@@ -116,6 +122,7 @@ class CreateOrganisationAddress(FailableMutation):
                 city=city,
                 postal_code=postal_code,
                 country=country,
+                phone_prefix=phone_prefix,
             )
         except OrganisationAddressService.exceptions as e:
             raise MutationExecutionException(str(e))
@@ -132,6 +139,7 @@ class UpdateOrganisationAddress(FailableMutation):
         city = graphene.String(required=False)
         postal_code = graphene.String(required=False)
         country = graphene.String(required=False)
+        phone_prefix = graphene.String(required=False)
 
     @permissions_checker([IsAuthenticated, CanUpdateOrganisationEntityPermission])
     def mutate(
@@ -142,6 +150,7 @@ class UpdateOrganisationAddress(FailableMutation):
         street=NotPassed,
         city=NotPassed,
         postal_code=NotPassed,
+        phone_prefix=NotPassed,
         country=NotPassed,
     ):
         user = get_user_from_info(info)
@@ -150,9 +159,10 @@ class UpdateOrganisationAddress(FailableMutation):
                 user,
                 int(from_global_id(organisation_address_id)[1]),
                 name=name,
-                short_name=street,
-                parent_id=city,
+                street=street,
+                city=city,
                 postal_code=postal_code,
+                phone_prefix=phone_prefix,
                 country=country,
             )
         except OrganisationAddressService.exceptions as e:

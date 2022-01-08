@@ -151,7 +151,9 @@ class OrganisationAddressService(Service, CRUDMixin):
         return org_address
 
     @classmethod
-    def create_address(cls, user, name, street, city, postal_code, country):
+    def create_address(
+        cls, user, name, street, city, postal_code, country, phone_prefix=NotPassed
+    ):
         """
         create a new address object
         :param user: user calling the service
@@ -168,16 +170,19 @@ class OrganisationAddressService(Service, CRUDMixin):
             )
 
         with reversion.create_revision():
-            person = cls._create(
+            organisation_address = cls._create(
                 {
                     "name": name,
                     "street": street,
                     "city": city,
                     "postal_code": postal_code,
                     "country": country,
+                    "phone_prefix": phone_prefix,
                 }
             )
             reversion.set_user(user)
+
+        return organisation_address
 
     @classmethod
     def update_address(
@@ -189,6 +194,7 @@ class OrganisationAddressService(Service, CRUDMixin):
         city=NotPassed,
         postal_code=NotPassed,
         country=NotPassed,
+        phone_prefix=NotPassed,
     ):
         """
         create a new address object
@@ -198,6 +204,7 @@ class OrganisationAddressService(Service, CRUDMixin):
         :param street: Street and houseno
         :param city: city name
         :param postal_code: postal code
+        :param phone_prefix: phone_prefix
         :param country: country 2digit iso code e.g. "DE"
         """
 
@@ -219,6 +226,7 @@ class OrganisationAddressService(Service, CRUDMixin):
                     "city": city,
                     "postal_code": postal_code,
                     "country": country,
+                    "phone_prefix": phone_prefix,
                 },
             )
             reversion.set_user(user)
