@@ -8,7 +8,7 @@ class OrganisationAddress(models.Model):
     name = models.CharField(max_length=255)
     street = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255)
-    postal_code = models.CharField(max_length=5, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
     country = models.CharField(max_length=2)
     phone_prefix = models.CharField(max_length=40, blank=True, null=True)
 
