@@ -13,8 +13,23 @@ from serious_django_graphene import (
 from serious_django_services import NotPassed
 
 from claims.schema import PersonNode
+from person.models import PositionAbbreviation, PersonPosition
 from person.permissions import CanCreatePersonPermission, CanUpdatePersonPermission
 from person.services import PersonService
+
+
+class PositionAbbreviationNode(DjangoObjectType):
+    class Meta:
+        model = PositionAbbreviation
+        filter_fields = ["id", "name"]
+        interfaces = (relay.Node,)
+
+
+class PersonPositionNode(DjangoObjectType):
+    class Meta:
+        model = PersonPosition
+        filter_fields = ["id"]
+        interfaces = (relay.Node,)
 
 
 class CreatePerson(FailableMutation):
@@ -68,5 +83,10 @@ class Mutation(graphene.ObjectType):
     update_person = UpdatePerson.Field()
 
 
+class Query(graphene.ObjectType):
+    position_abbreviation = relay.Node.Field(PositionAbbreviationNode)
+    all_position_abbreviations = DjangoFilterConnectionField(PositionAbbreviationNode)
+
+
 ## Schema
-schema = graphene.Schema(mutation=Mutation)
+schema = graphene.Schema(mutation=Mutation, query=Query)

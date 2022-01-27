@@ -7,6 +7,7 @@ from oauth import schema as oauth_schema
 
 
 class Query(
+    person_schema.Query,
     claims_schema.schema.Query,
     orgcharts_schema.Query,
     oauth_schema.Query,
