@@ -37,13 +37,15 @@ class CreatePerson(FailableMutation):
 
     class Arguments:
         name = graphene.String(required=True)
-        position = graphene.String(required=False)
+        position = graphene.ID(required=False)
 
     @permissions_checker([IsAuthenticated, CanCreatePersonPermission])
     def mutate(self, info, name, position):
         user = get_user_from_info(info)
         try:
-            result = PersonService.create_person(user, name, position)
+            result = PersonService.create_person(
+                user, name, int(from_global_id(position)[1])
+            )
         except PersonService.exceptions as e:
             raise MutationExecutionException(str(e))
         return CreatePerson(success=True, person=result)
@@ -55,7 +57,7 @@ class UpdatePerson(FailableMutation):
     class Arguments:
         person_id = graphene.ID(required=True)
         name = graphene.String(required=True)
-        position = graphene.String(required=False)
+        position = graphene.ID(required=False)
 
     @permissions_checker([IsAuthenticated, CanUpdatePersonPermission])
     def mutate(
@@ -71,7 +73,7 @@ class UpdatePerson(FailableMutation):
                 user,
                 int(from_global_id(person_id)[1]),
                 name=name,
-                position=position,
+                position=int(from_global_id(position)[1]),
             )
         except PersonService.exceptions as e:
             raise MutationExecutionException(str(e))

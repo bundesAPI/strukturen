@@ -23,11 +23,20 @@ class PositionAbbreviation(models.Model):
         PersonPosition, related_name="abbreviations", on_delete=models.CASCADE
     )
 
+    def __str__(self):
+        return self.name
+
 
 @reversion.register()
 class Person(Entity):
     name = models.CharField(max_length=255)
-    position = models.CharField(max_length=255, blank=True, null=True)
+    position = models.ForeignKey(
+        PositionAbbreviation,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="persons",
+    )
 
     def __str__(self):
         return self.name

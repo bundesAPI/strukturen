@@ -34,7 +34,7 @@ class PersonService(Service, CRUDMixin):
 
     @classmethod
     def create_person(
-        cls, user: AbstractUser, name: str, position: str = NotPassed
+        cls, user: AbstractUser, name: str, position: id = NotPassed
     ) -> Person:
         """create a new person
         :param user: the user calling the service
@@ -58,7 +58,7 @@ class PersonService(Service, CRUDMixin):
         user: AbstractUser,
         person_id: int,
         name: str = NotPassed,
-        position: str = NotPassed,
+        position: id = NotPassed,
     ) -> Person:
         """create a new person
         :param user: the user calling the service
