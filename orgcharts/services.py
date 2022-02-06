@@ -213,7 +213,7 @@ class OrgChartImportService(Service):
         for person in entity["people"]:
             # not sure if this is a permanent solution
             position = None
-            if position in person and person["position"]:
+            if "position" in person and person["position"]:
                 # TODO: figure our what from_global_id could throw here
                 try:
                     position = int(from_global_id(person["position"])[1])
