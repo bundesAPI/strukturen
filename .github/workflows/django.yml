@@ -30,7 +30,7 @@ jobs:
         poetry run python manage.py test --settings=settings.configs.test
 
     - name: Django Coverage
-      uses: actions/python-django-coverage-gitHub-action@0.9
+      uses: dc740/django-coveragepy-github-action@0.9
       with:
         django-app: 'settings'
         minimum-coverage: '10'
