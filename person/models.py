@@ -8,6 +8,9 @@ from django.utils.translation import ugettext as _
 class PersonPosition(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Gender(models.TextChoices):
     MALE = "MALE", _("Male")
