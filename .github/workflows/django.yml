@@ -32,6 +32,7 @@ jobs:
       run: |
          poetry run coverage run  manage.py test --settings=settings.configs.test
          poetry run coverage report
+         poetry run coverage xml
 
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v2
