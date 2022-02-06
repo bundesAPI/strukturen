@@ -118,7 +118,7 @@ WSGI_APPLICATION = "settings.wsgi.application"
 
 
 # claims that are used in the code
-CLAIMS = {"LEADS": "leads"}
+CLAIMS = {"LEADS": "leads", "DIAL_CODE": "dialCode"}
 
 # Base url to serve media files
 MEDIA_URL = "/media/"

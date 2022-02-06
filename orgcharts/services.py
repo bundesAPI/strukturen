@@ -1,9 +1,16 @@
+import json
+
 import reversion
 from django.contrib.auth.models import AbstractUser
 from serious_django_services import Service, NotPassed, CRUDMixin
 from graphql_relay import from_global_id
 
-from claims.services import RelationshipClaimService, ClaimService, ClaimTypeService
+from claims.services import (
+    RelationshipClaimService,
+    ClaimService,
+    ClaimTypeService,
+    ValueClaimService,
+)
 from organisation.forms import (
     UpdateOrganisationEntityForm,
     CreateOrganisationEntityForm,
@@ -227,6 +234,13 @@ class OrgChartImportService(Service):
                     settings.CLAIMS["LEADS"]
                 ).pk,
                 curr_entity.pk,
+            )
+        for dial_code in entity["dialCodes"]:
+            ValueClaimService.create_value_claim(
+                user,
+                curr_entity.pk,
+                settings.CLAIMS["DIAL_CODE"],
+                json.dumps({"dialCode": dial_code}),
             )
         entity_dict[entity["id"]]["imported"] = True
         entity_dict[entity["id"]]["internal_id"] = curr_entity.pk
