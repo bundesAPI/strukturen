@@ -1,6 +1,7 @@
 import reversion
 from django.contrib.auth.models import AbstractUser
 from serious_django_services import Service, NotPassed, CRUDMixin
+from graphql_relay import from_global_id
 
 from claims.services import RelationshipClaimService, ClaimService, ClaimTypeService
 from organisation.forms import (
@@ -210,8 +211,9 @@ class OrgChartImportService(Service):
         )
 
         for person in entity["people"]:
+            # not sure if this is a permanent solution
             curr_person = PersonService.create_person(
-                user, person["name"], person["position"]
+                user, person["name"], int(from_global_id(person["position"])[1])
             )
             claim = RelationshipClaimService.create_relationship_claim(
                 user,
