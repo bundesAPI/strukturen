@@ -239,7 +239,9 @@ class OrgChartImportService(Service):
             ValueClaimService.create_value_claim(
                 user,
                 curr_entity.pk,
-                settings.CLAIMS["DIAL_CODE"],
+                ClaimTypeService.resolve_claim_type_by_codename(
+                    settings.CLAIMS["DIAL_CODE"]
+                ).pk,
                 json.dumps({"dialCode": dial_code}),
             )
         entity_dict[entity["id"]]["imported"] = True
