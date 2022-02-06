@@ -129,13 +129,13 @@ class ValueClaimService(Service, CRUDMixin):
 
     @classmethod
     def create_value_claim(
-        cls, user: AbstractUser, entity_id: int, claim_type_id: int, value: str
+        cls, user: AbstractUser, entity_id: int, claim_type_id: int, value: dict
     ):
         """create a new value claim
         :param user: user calling the service
         :param entity_id: entity id this claim is added to
         :param claim_type_id: claim type
-        :param value: json value of the claim
+        :param value: json value of the claim as dict
         """
         entity = EntityService.resolve_entity(entity_id)
         claim_type = ClaimTypeService.resolve_claim_type(claim_type_id)

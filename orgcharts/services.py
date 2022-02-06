@@ -242,7 +242,7 @@ class OrgChartImportService(Service):
                 ClaimTypeService.resolve_claim_type_by_codename(
                     settings.CLAIMS["DIAL_CODE"]
                 ).pk,
-                json.dumps({"dialCode": dial_code}),
+                {"dialCode": dial_code},
             )
         entity_dict[entity["id"]]["imported"] = True
         entity_dict[entity["id"]]["internal_id"] = curr_entity.pk
