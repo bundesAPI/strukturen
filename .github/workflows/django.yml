@@ -29,6 +29,9 @@ jobs:
       run: |
         poetry run python manage.py test --settings=settings.configs.test
 
+    - name: generate requirements.txt
+      run: poetry export --without-hashes -f requirements.txt --output requirements.txt
+
     - name: Django Coverage
       uses: dc740/django-coveragepy-github-action@0.9
       with:
