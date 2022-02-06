@@ -212,9 +212,14 @@ class OrgChartImportService(Service):
 
         for person in entity["people"]:
             # not sure if this is a permanent solution
-            curr_person = PersonService.create_person(
-                user, person["name"], int(from_global_id(person["position"])[1])
-            )
+            position = None
+            if position in person and person["position"]:
+                # TODO: figure our what from_global_id could throw here
+                try:
+                    position = int(from_global_id(person["position"])[1])
+                except Exception:
+                    pass
+            curr_person = PersonService.create_person(user, person["name"], position)
             claim = RelationshipClaimService.create_relationship_claim(
                 user,
                 curr_person.pk,
