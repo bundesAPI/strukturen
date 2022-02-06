@@ -28,13 +28,15 @@ jobs:
     - name: Run Tests
       run: |
         poetry run python manage.py test --settings=settings.configs.test
+    - name: Run Test Coverage
+      run: |
+         poetry run coverage run  manage.py test --settings=settings.configs.test
+         poetry run coverage report
 
-    - name: generate requirements.txt
-      run: poetry export --without-hashes -f requirements.txt --output requirements.txt
-
-    - name: Django Coverage
-      uses: dc740/django-coveragepy-github-action@0.9
+    - name: "Upload coverage to Codecov"
+      uses: codecov/codecov-action@v2
       with:
-        django-app: 'settings'
-        minimum-coverage: '10'
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+
 
