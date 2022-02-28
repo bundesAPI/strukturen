@@ -64,13 +64,30 @@ h6{
   margin-top: 5px;
 }
 
-.btn-primary{
+.social-login-btn {
+  margin-bottom: 20px;
+  width: 100%;
+   vertical-align: middle;
+}
+
+a.btn-primary,.btn-primary{
   background-color: #ee44aa;
   border: 0px solid black;
+  color: #fff!important;
+  border-radius: 0px;
 }
+
+.social-login-btns {
+  padding-top: 50px;
+  text-align: center;
+
+
+}
+
 .btn-primary:hover{
   box-shadow: none;
   background-color: #ee44aa;
+  color: #fff!important;
 }
 .btn-primary:active{
   box-shadow: 0 0 0 0.2rem #ee44aa;
@@ -88,6 +105,8 @@ h6{
   background-color: #ee44aa;
   border-color: #ee44aa;
 }
+
+
 a {
   color: #ee44aa!important;
 }
@@ -125,6 +144,8 @@ a:hover {
   margin-right: 20px;
 }
 
+
+
 .login .form-panel {
   background-color: #fff;
   border: 1px solid #e8e8e8;
@@ -139,3 +160,10 @@ a:hover {
   margin-top: 10px;
 }
 /* ------/ login.html ------ */
+
+.account-panel {
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

@@ -261,6 +261,20 @@ python-versions = ">=3.6"
 Django = ">=2.2"
 
 [[package]]
+name = "django-gdpr-assist"
+version = "1.4.1"
+description = "GDPR tools for Django sites"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+django-yaa-settings = ">=1.1"
+
+[package.extras]
+dev = ["tox", "pillow", "model-bakery", "freezegun", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme"]
+
+[[package]]
 name = "django-graphene-permissions"
 version = "0.0.4"
 description = "DRF like permission system for django graphene"
@@ -379,6 +393,17 @@ dropbox = ["dropbox (>=7.2.1)"]
 google = ["google-cloud-storage (>=1.27.0)"]
 libcloud = ["apache-libcloud"]
 sftp = ["paramiko"]
+
+[[package]]
+name = "django-yaa-settings"
+version = "1.1.0"
+description = "Yet Another App Settings for Django"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+dev = ["tox"]
 
 [[package]]
 name = "djangorestframework"
@@ -900,7 +925,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c7429e78c91ad173c11b4536bd8389f8007f5bb2ea68af7b4dadb74706203467"
+content-hash = "65a57956136e68204fcc61e390d7ccbefce451ce381e314bfdb26dec670aded6"
 
 [metadata.files]
 aniso8601 = [
@@ -1052,6 +1077,10 @@ django-filter = [
     {file = "django-filter-21.1.tar.gz", hash = "sha256:632a251fa8f1aadb4b8cceff932bb52fe2f826dd7dfe7f3eac40e5c463d6836e"},
     {file = "django_filter-21.1-py3-none-any.whl", hash = "sha256:f4a6737a30104c98d2e2a5fb93043f36dd7978e0c7ddc92f5998e85433ea5063"},
 ]
+django-gdpr-assist = [
+    {file = "django-gdpr-assist-1.4.1.tar.gz", hash = "sha256:41ed8e27f0ada7baad898a6ad039923af6be2eace0828b2ffe6f8caf79f91a8f"},
+    {file = "django_gdpr_assist-1.4.1-py3-none-any.whl", hash = "sha256:73c92e07db54f3e2578de3a726d8971ec522336ecc6ab1ae8f91e8d116465cfc"},
+]
 django-graphene-permissions = [
     {file = "django_graphene_permissions-0.0.4-py3-none-any.whl", hash = "sha256:837d45f621c26fa8fba332139dfbd70aa80c54fba618b27357957360170203e4"},
     {file = "django_graphene_permissions-0.0.4.tar.gz", hash = "sha256:5ed879e9031519ed9f03d5a39794968374fccf9bbb8d89f0a91337b657285ccd"},
@@ -1083,6 +1112,9 @@ django-secrets-manager = [
 django-storages = [
     {file = "django-storages-1.12.3.tar.gz", hash = "sha256:a475edb2f0f04c4f7e548919a751ecd50117270833956ed5bd585c0575d2a5e7"},
     {file = "django_storages-1.12.3-py3-none-any.whl", hash = "sha256:204a99f218b747c46edbfeeb1310d357f83f90fa6a6024d8d0a3f422570cee84"},
+]
+django-yaa-settings = [
+    {file = "django-yaa-settings-1.1.0.tar.gz", hash = "sha256:7cd3e7fdb4cf632394dd3872734bb92dd3de4394ddc760fa8a2d33cc645e4971"},
 ]
 djangorestframework = [
     {file = "djangorestframework-3.13.1-py3-none-any.whl", hash = "sha256:24c4bf58ed7e85d1fe4ba250ab2da926d263cd57d64b03e8dcef0ac683f8b1aa"},

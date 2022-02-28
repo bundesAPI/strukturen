@@ -44,6 +44,8 @@ sentry_sdk.init(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
 # TODO
 ALLOWED_HOSTS = [
     os.environ.get("ALLOWED_HOSTS"),

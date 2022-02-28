@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "oauth2_provider",
     "oauth2_provider_jwt",
     "crispy_forms",
+    "social_django",
     # cors
     "settings",
     "corsheaders",
@@ -71,6 +72,8 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "serious_django_permissions.permissions.PermissionModelBackend",
     "guardian.backends.ObjectPermissionBackend",
+    # social auth providers
+    "social_core.backends.github.GithubOAuth2",
 )
 
 
@@ -174,6 +177,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOGIN_REDIRECT_URL = "/account/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

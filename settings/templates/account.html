@@ -1,0 +1,67 @@
+{% extends "auth_base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Account" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+<div class="row justify-content-center account-panel">
+    <div class="col-md-12">
+        <h2>{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}</h2>
+        <hr />
+        <div class="row row-fluid">
+            <div class="col-md-3">
+                {% blocktrans with member_since=user.date_joined %}
+                    <b>Memember since:</b> <br>{{ member_since }}
+                {% endblocktrans %}
+            </div>
+            <div class="col-md-3 col-md-offset=1">
+                {% blocktrans with last_login=user.last_login %}
+                    <b>Last login:</b> <br>{{ last_login }}
+                {% endblocktrans %}
+            </div>
+            <div class="col-md-3 col-md-offset=1">
+                    <b>{%  trans "Account Settings:"%}</b> <br><a href="{% url 'password_change' %}">
+                    {% trans "Change Password" %}
+                </a>
+            </div>
+        </div><br><br>
+        <h3>{%  trans "Applications" %}</h3>
+            <hr>
+            {% if apps|length > 0 %}
+                {%  trans "You are currently using the following Applications:" %}
+            {% else %}
+                 {%  trans "You don't use any Applications. 😢" %}
+            {% endif %}
+            {% for app, meta_data in apps.items %}
+                <h4>{{ app.name }}</h4>
+                <b>{% trans "This app can:" %}</b><br>
+                {% for scope in app.scopes.all %}
+                    <li>{{ scope }}</li>
+                {% endfor %}<br>
+                <b>{% trans "Latest application activities:" %}</b>
+                {% for login in meta_data.credentials %}
+                <li>
+                    {% blocktrans with app_name=login.application.name last_login=login.created %}
+                    Authorization via {{ app_name }} ({{ last_login }})
+                    {% endblocktrans %}
+                </li>
+                {% endfor %}
+                <br>
+            {% endfor %}<br><br>
+        <h3>{%  trans "Social Logins" %}</h3>
+            <hr>
+            {% if user.social_auth.count > 0 %}
+                {%  trans "You are currently using the following social login providers:" %}
+            {% else %}
+                 {%  trans "Your Account is not connected with any social login providers. 🤷" %}
+            {% endif %}
+            {% for auth_provider in user.social_auth.all %}
+                <li>{{ auth_provider.provider }}</li>
+            {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock %}

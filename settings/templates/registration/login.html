@@ -5,39 +5,43 @@
 
 {% block form_content %}
     <div class="form-panel">
-        <form id="login-form" method="post">
-            {% csrf_token %}
-
             <div class="form-row">
-                {% if form.non_field_errors  %}
-                    <div class="alert alert-danger col-md-12" role="alert">
-                        {{ form.non_field_errors }}
+                    <div class=" col-md-6 col-sm-12 pr-4">
+                        <form id="login-form" method="post">
+                            {% csrf_token %}
+                            {% if form.non_field_errors  %}
+                                <div class="alert alert-danger col-md-12" role="alert">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="input{{ form.username.name }}">{% trans "Email address/Username" %}</label>
+                                <input type="text" name="{{ form.username.name }}" class="form-control" id="input{{ form.username.name }}"
+                                       placeholder="{% trans "sample.username@email.com" %}">
+                                <div id="input{{ form.username.name }}Error" class="invalid-feedback">{{ form.username.errors }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input{{ form.username.name }}">{% trans "Password" %}</label>
+                                <input name="{{ form.password.name }}" type="password" class="form-control" id="input{{ form.username.name }}" placeholder="Enter">
+                                <span class="forgotPasswordLink">
+                                    <a href="{% url 'password_reset' %}">{% trans "Forgot your password?" %}</a>
+                                </span>
+                                <div id="inputCompanyError" class="invalid-feedback">{{ form.password.errors }}</div>
+                            </div>
+                            <input type="hidden" name="next" value="{{ next }}" />
+                            <input type="submit" class="btn btn-primary" name="allow" value="{% trans "Login" %}"/>
+
+                        </form>
                     </div>
-                {% endif %}
-                <div class="form-group col-md-6 col-sm-12 pr-4">
-                    <label for="input{{ form.username.name }}">{% trans "Email address/Username" %}</label>
-                    <input type="text" name="{{ form.username.name }}" class="form-control" id="input{{ form.username.name }}"
-                           placeholder="{% trans "sample.username@email.com" %}">
-                    <div id="input{{ form.username.name }}Error" class="invalid-feedback">{{ form.username.errors }}</div>
-                </div>
-                <div class="form-group col-md-6 col-sm-12 pr-4">
-                    <label for="input{{ form.username.name }}">{% trans "Password" %}</label>
-                    <input name="{{ form.password.name }}" type="password" class="form-control" id="input{{ form.username.name }}" placeholder="Enter">
-                    <span class="forgotPasswordLink">
-                        <a href="{% url 'password_reset' %}">{% trans "Forgot your password?" %}</a>
-                    </span>
-                    <div id="inputCompanyError" class="invalid-feedback">{{ form.password.errors }}</div>
-                </div>
+                    <div class=" col-md-6 col-sm-12 pr-4">
+                        <div class="social-login-btns">
+                            <a role="button" style="background-color: #000;"class="btn btn-primary social-login-btn" href="{% url "social:begin" "github" %}">{% trans "Login with Github" %}</a>
+                            <a role="button" style="background-color: #0034a5;" class="btn btn-primary social-login-btn" href="{% url "social:begin" "github" %}">{% trans "Login with FragDenStaat" %}</a>
+                        </div>
+
+                    </div>
+
             </div>
 
-            <input type="hidden" name="next" value="{{ next }}" />
-
-        <div class="row d-flex justify-content-between m-0 form-footer">
-            <span class="need-help-container"> </span>
-            <div>
-                <input type="submit" class="btn btn-primary" name="allow" value="{% trans "Login" %}"/>
-            </div>
-        </div>
-        </form>
     </div>
 {% endblock %}
