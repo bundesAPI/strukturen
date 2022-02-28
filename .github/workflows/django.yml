@@ -28,4 +28,16 @@ jobs:
     - name: Run Tests
       run: |
         poetry run python manage.py test --settings=settings.configs.test
+    - name: Run Test Coverage
+      run: |
+         poetry run coverage run  manage.py test --settings=settings.configs.test
+         poetry run coverage report
+         poetry run coverage xml
+
+    - name: "Upload coverage to Codecov"
+      uses: codecov/codecov-action@v2
+      with:
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+
 
