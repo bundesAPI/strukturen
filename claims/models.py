@@ -24,6 +24,7 @@ class ClaimType(models.Model):
     code_name = models.CharField(max_length=255, null=True, blank=True)
     content_type = models.ManyToManyField(ContentType)
     value_schema = models.JSONField(blank=True, null=True)
+    value_template = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
