@@ -7,6 +7,8 @@ from django.utils.translation import ugettext as _
 @reversion.register()
 class PersonPosition(models.Model):
     name = models.CharField(max_length=255)
+    female_name = models.CharField(max_length=255, blank=True, null=True)
+    gender_neutral_name = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name
