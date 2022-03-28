@@ -23,6 +23,8 @@ ALLOWED_HOSTS = []
 ORGCHART_CRAWLER_SNS_TOPIC = None
 ORGCHART_ANALYSIS_SNS_TOPIC = None
 
+TESTING = False
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     "claims",
     "orgcharts",
     "oauth",
+    "django_opensearch_dsl",
 ]
 
 MIDDLEWARE = [

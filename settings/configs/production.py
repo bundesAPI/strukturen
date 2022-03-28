@@ -88,6 +88,26 @@ SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
 SOCIAL_AUTH_FROIDE_KEY = SECRETS.get("SOCIAL_AUTH_FROIDE_KEY")
 SOCIAL_AUTH_FROIDE_SECRET = SECRETS.get("SOCIAL_AUTH_FROIDE_SECRET")
 
+from opensearchpy import AWSV4SignerAuth, OpenSearch, RequestsHttpConnection
+import boto3
+
+credentials = boto3.session.Session(
+    region_name=AWS_EB_DEFAULT_REGION,
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+).get_credentials()
+auth = AWSV4SignerAuth(credentials, AWS_EB_DEFAULT_REGION)
+
+OPENSEARCH_DSL = {
+    "default": {
+        "hosts": [{"host": OPEN_SEARCH_CLUSTER_ENDPOINT, "port": 443}],
+        "http_auth": auth,
+        "use_ssl": True,
+        "verify_certs": True,
+        "connection_class": RequestsHttpConnection,
+    }
+}
+
 try:
     from .local import *
 except ImportError:

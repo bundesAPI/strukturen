@@ -4,6 +4,7 @@ from opensearchpy import AWSV4SignerAuth, OpenSearch, RequestsHttpConnection
 
 
 def get_search_client() -> OpenSearch:
+    # TODO: remove me and move to the opensearch-django-dsl
     credentials = boto3.session.Session(
         region_name=settings.AWS_EB_DEFAULT_REGION,
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
