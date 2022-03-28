@@ -1,5 +1,3 @@
-from .base import *
-from os import environ
 import os
 
 from django_secrets import SECRETS
@@ -13,7 +11,6 @@ AWS_SECRETS_MANAGER_SECRET_SECTION = os.environ.get(
     "AWS_SECRETS_MANAGER_SECRET_SECTION"
 )
 AWS_SECRETS_MANAGER_REGION_NAME = os.environ.get("AWS_REGION_NAME")
-
 
 DATABASES = {
     "default": {
@@ -77,6 +74,7 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 AWS_S3_REGION_NAME = os.environ.get("AWS_REGION_NAME")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_BUCKET_NAME")
+OPEN_SEARCH_CLUSTER_ENDPOINT = os.environ.get("OPEN_SEARCH_CLUSTER_ENDPOINT")
 
 ORGCHART_CRAWLER_SNS_TOPIC = os.environ.get("ORGCHART_CRAWLER_SNS_TOPIC")
 ORGCHART_ANALYSIS_SNS_TOPIC = os.environ.get("ORGCHART_ANALYSIS_SNS_TOPIC")
