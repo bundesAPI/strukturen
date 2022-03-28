@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.response import TemplateResponse
@@ -21,7 +22,10 @@ def status(request):
     """serve 200 at /"""
     client = get_search_client()
     return HttpResponse(
-        json.dumps({"search": client.info()}), content_type="application/json"
+        json.dumps(
+            {"search": client.info(), "aws": {"region": settings.AWS_EB_DEFAULT_REGION}}
+        ),
+        content_type="application/json",
     )
 
 
