@@ -1,3 +1,5 @@
+from .base import *
+from os import environ
 import os
 
 from django_secrets import SECRETS
